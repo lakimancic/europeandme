@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="sr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/mobile/1.5.0-rc1/jquery.mobile-1.5.0-rc1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"
+        integrity="sha512-rCjfoab9CVKOH/w/T6GbBxnAH5Azhy4+q1EXW5XEURefHbIkRbQ++ZR+GBClo3/d3q583X/gO4FKmOFuhkKrdA=="
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="js/map.js" defer></script>
+    <script src="js/slider.js" defer></script>
+    <script src="js/game.js" defer></script>
+    <script defer>
+        const toUrl = (url) => {
+            window.location.href = url;
+        }
+        function check() {
+            var checkbox = document.getElementById("ceo");
+            if (window.innerHeight == screen.height) {
+                checkbox.checked = true;
+                // console.log(checkbox.checked)
+            }
+            else {
+                checkbox.checked = false;
+                // console.log(checkbox.checked)
+            }
+        }
+
+        window.onresize = () => {
+            var checkbox = document.getElementById("ceo");
+            if (window.innerHeight != screen.height) {
+                if(checkbox.checked == true){
+                    checkbox.checked = false;
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="css/game.css">
+    <title>Igra</title>
+</head>
+
+<body onload="check()">
+    <audio id="zvuk_tacan">
+        <source src="sounds/tacan.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="zvuk_netacan">
+        <source src="sounds/netacan.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="zvuk_vreme">
+        <source src="sounds/vreme.mp3" type="audio/mpeg">
+    </audio>
+    <div class="container">
+        <div class="map-container">
+            <div class="map">
+                <div class="lopta">
+                    <div class="tooltip">
+                        <p class="ime">Francuska</p>
+                        <div class="br"></div>
+                        <img src="images/icons/d_rel.png">
+                        <p class="d_text">Diplomatski odnos:</p>
+                        <p class="d_num">100</p>
+                        <button class="btn">Povećaj odnos</button>
+                        <div class="arrow"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="zoom">
+            <button id="plus">+</button>
+            <button id="minus">-</button>
+        </div>
+        <div class="chat_bg">
+            <div class="chat1">
+                <div class="timer">5</div>
+                <div class="kats">
+                    <button id="laka">Laka</button>
+                    <div class="br"></div>
+                    <button id="sred">Srednja</button>
+                    <div class="br"></div>
+                    <button id="tesk">Teška</button>
+                </div>
+                <div class="odgs">
+                    <button>Odgovor broj 1</button>
+                    <button>Odgovor broj 2</button>
+                    <button>Odgovor broj 3</button>
+                    <button>Odgovor broj 4</button>
+                </div>
+                <!--div class="ok"><button>U redu</button></div-->
+                <div class="yesno">
+                    <button id="yes">Da</button>
+                    <button id="no">Ne</button>
+                </div>
+                <div class="ok">
+                    <button>U redu</button>
+                </div>
+                <div class="arrow1">
+                </div>
+            </div>
+            <div class="chat2">
+                <p>Koji je glavni grad Francuske ?</p>
+                <div class="arrow2"></div>
+            </div>
+        </div>
+        <div class="menu">
+            <img src="images/logo.svg" id="logo" alt="EU i Srbija" onclick="toUrl('main.html')">
+            <img src="images/icons/save.png" alt="Sacuvaj" id="save">
+            <img src="images/icons/settings.png" alt="Postavke" id="settings">
+            <div class="info" id="bdp">
+                <img src="images/icons/coins.png" alt="BDP" class="info_icon">
+                <p class="info_text">1.000.000 RSD</p>
+                <div class="info_tt">BDP</div>
+                <div class="info_arrow"></div>
+            </div>
+            <div class="info" id="bdp_p">
+                <img src="images/icons/coins_plus.png" alt="BDP+" class="info_icon">
+                <p class="info_text">10.000 RSD</p>
+                <div class="info_tt">BDP po potezu</div>
+                <div class="info_arrow"></div>
+            </div>
+            <div class="info" id="dp">
+                <img src="images/icons/dpl.png" alt="DP" class="info_icon">
+                <p class="info_text">15.5</p>
+                <div class="info_tt">Diplomatski poeni</div>
+                <div class="info_arrow"></div>
+            </div>
+            <div class="turn">
+                <p>Potez: 5</p>
+            </div>
+            <div class="info" id="datum">
+                <img src="images/icons/date.png" alt="Datum" class="info_icon">
+                <p class="info_text">30. septembar 2020.</p>
+            </div>
+            <img src="images/icons/next.png" alt="Sledeci potez" id="next">
+        </div>
+        <div class="srb_con">
+            <div class="srb_info">
+                <div class="close"><i class="fas fa-times"></i></div>
+                <h1>Republika Srbija</h1>
+                <div class="srb_item" style="width:25%;">
+                    <img src="images/icons/fab.png" src="Ekonomija" class="ikone">
+                    <p>Ekonomija:</p>
+                    <p class="val" id="economy">1000</p>
+                    <div class="upitnik">
+                        <i class="fas fa-question"></i>
+                        <div class="popup ekonom">
+                            <p>Fabrike: <span id="fab">1000</span></p>
+                            <p>Razvijenost: <span id="raz">2000</span></p>
+                            <p>Ukupno: <span id="uku">3000</span></p>
+                            <p>Potrebno: <span>20000</span></p>
+                        </div>
+                        <div class="popArr"></div>
+                    </div>
+                </div>
+                <button class="povecajBtn" id="eko">Povećaj ekonomiju</button>
+                <button id="gradifab">Izgradi fabrike</button>
+                <div class="br"></div>
+                <div class="srb_item">
+                    <img src="images/icons/coins.png" src="BDP" class="ikone">
+                    <p>BDP:</p>
+                    <p class="val" id="bdp_info">1.000.000 RSD</p>
+                    <div class="upitnik">
+                        <i class="fas fa-question"></i>
+                        <div class="popup">
+                            <p>Potrebno: <span>10.000.000 RSD</span></p>
+                        </div>
+                        <div class="popArr"></div>
+                    </div>
+                </div>
+                <div class="srb_item" style="margin-left: 1%;">
+                    <img src="images/icons/coins_plus.png" src="BDP+" class="ikone">
+                    <p>BDP/potezu:</p>
+                    <p class="val" id="bdp_p_info">10.000 RSD</p>
+                </div>
+                <div class="br"></div>
+                <div class="srb_item">
+                    <p>Plate/Penzije:</p>
+                    <div id="slider">
+                        <span class="ui-slider" id="slider-span">
+                            <div class="slider-value">
+                                <span id="plate-val">0.55</span>
+                                <div class="slider-val-arr"></div>
+                            </div>
+                        </span>
+                    </div>
+                    <div class="upitnik">
+                        <i class="fas fa-question"></i>
+                        <div class="popup">
+                            <p>Potrebno: <span>0.7</span></p>
+                        </div>
+                        <div class="popArr"></div>
+                    </div>
+                </div>
+                <div class="srb_item" style="margin-left: 1%;">
+                    <p>Porez:</p>
+                    <div id="slider2">
+                        <span class="ui-slider" id="slider-span2">
+                            <div class="slider-value">
+                                <span id="porez-val">0.55</span>
+                                <div class="slider-val-arr"></div>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+                <div class="br"></div>
+                <div class="srb_item">
+                    <p>Procenat Nezaposlenosti:</p>
+                    <p class="val" id="nezaposl">100%</p>
+                    <div class="upitnik">
+                        <i class="fas fa-question"></i>
+                        <div class="popup">
+                            <p>Potrebno: <span>15%</span></p>
+                        </div>
+                        <div class="popArr"></div>
+                    </div>
+                </div>
+                <div class="srb_item" style="margin-left: 1%;">
+                    <p>Zadovoljstvo Građana:</p>
+                    <p class="val" id="sreca">100</p>
+                </div>
+                <div class="br"></div>
+                <div class="srb_item">
+                    <img src="images/icons/rec.png" src="BDP" class="ikone">
+                    <p>Ekološki status:</p>
+                    <p class="val" id="ekos">100</p>
+                    <div class="upitnik">
+                        <i class="fas fa-question"></i>
+                        <div class="popup">
+                            <p>Potrebno: <span>90</span></p>
+                        </div>
+                        <div class="popArr"></div>
+                    </div>
+                </div>
+                <button style="width:30%;" class="povecajBtn" id="ekl">Povećaj Ekološki status</button>
+                <div class="br"></div>
+                <div class="srb_item">
+                    <img src="images/icons/dpl.png" src="BDP" class="ikone">
+                    <p>Diplomatski poeni:</p>
+                    <p class="val" id="dpoeni">15</p>
+                    <div class="upitnik">
+                        <i class="fas fa-question"></i>
+                        <div class="popup" style="height: 5vw;top: calc(2.5vh - 2.5vw);">
+                            <p>Trenutan prosečni odnos: <span id="prosod">85</span></p>
+                            <p>Potreban prosečni odnos: <span>85</span></p>
+                        </div>
+                        <div class="popArr"></div>
+                    </div>
+                </div>
+                <div class="srb_item" style="margin-left: 1%;">
+                    <p>Diplom. Poeni / potezu</p>
+                    <p class="val" id="dpoeni_p">1</p>
+                </div>
+                <div class="br"></div>
+                <div class="srb_item" id="prijat">
+                    <p>Prijatelji:</p>
+                    <img src="images/countryballs/bug_neutral.png" class="friends">
+                    <img src="images/countryballs/bug_neutral.png" class="friends">
+                    <img src="images/countryballs/bug_neutral.png" class="friends">
+                    <img src="images/countryballs/bug_neutral.png" class="friends">
+                    <img src="images/countryballs/bug_neutral.png" class="friends">
+                </div>
+                <div class="srb_item" style="margin-left: 1%;" id="neprijat">
+                    <p>Neprijatelji:</p>
+                    <img src="images/countryballs/bug_neutral.png" class="friends">
+                    <img src="images/countryballs/bug_neutral.png" class="friends">
+                    <img src="images/countryballs/bug_neutral.png" class="friends">
+                    <img src="images/countryballs/bug_neutral.png" class="friends">
+                    <img src="images/countryballs/bug_neutral.png" class="friends">
+                </div>
+                <div class="br"></div>
+                <button id="ueu">Uđi u Evropsku Uniju</button>
+            </div>
+        </div>
+        <div class="messcon">
+            <div class="chat3">
+                <p>Koliko fabrika zelite da izgradite ?</p>
+                <div class="uredu">
+                    <button>U redu</button>
+                </div>
+                <div class="fabs">
+                    <button>1000</button>
+                    <button>300</button>
+                    <button>100</button>
+                </div>
+                <div class="dane">
+                    <button style="margin-right: 3%;" id="da">Izgradi</button>
+                    <button id="ne">Odustani</button>
+                </div>
+                <div class="arrow1"></div>
+            </div>
+        </div>
+        <div class="settings_con">
+            <div class="settings_info">
+                <div class="close2"><i class="fas fa-times"></i></div>
+                <h1>POSTAVKE</h1>
+                <div class="muzika">
+                    <h2>MUZIKA</h2>
+                    <!--Slider1-->
+                    
+                    <div id="slider3">
+                        <span class="ui-slider" id="slider-span3"></span>
+                    </div>
+                </div>
+                <div class="zvuk">
+                    <h2>ZVUK</h2>
+                    <!--Slider2-->
+                    <div id="slider4">
+                        <span class="ui-slider" id="slider-span4"></span>
+                    </div>
+                </div>
+                <label class="ceoekran ceoekran-checkbox">
+                    <h2>REŽIM CELOG EKRANA</h2>
+                    <input type="checkbox" name="" id="ceo">
+                    <div class="control_indicator"></div>
+                </label>
+            </div>
+        </div>
+        <div class="srbija"></div>
+        <div class="drzava"></div>
+    </div>
+    <div id="warning-message">
+        <div>
+            <img src="images/countryballs/srb_mech.png" alt="">
+            <div>Molim Vas okrenite telefon horizontalno za dalje korišćenje!</div>
+        </div>
+    </div>
+    <div id="loading-screen">
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <i class="fas fa-star"></i>
+        <p>Učitavanje</p>
+    </div>
+</body>
+
+</html>

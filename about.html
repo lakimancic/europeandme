@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="sr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>O nama</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script defer>
+        /* Get the documentElement (<html>) to display the page in fullscreen */
+        // var elem = document.documentElement;
+        // /* View in fullscreen */
+        // function openFullscreen() {
+        //     if (elem.requestFullscreen) {
+        //         elem.requestFullscreen();
+        //     } else if (elem.webkitRequestFullscreen) { /* Safari */
+        //         elem.webkitRequestFullscreen();
+        //     } else if (elem.msRequestFullscreen) { /* IE11 */
+        //         elem.msRequestFullscreen();
+        //     }
+        // }
+
+        // /* Close fullscreen */
+        // function closeFullscreen() {
+        //     if (document.exitFullscreen) {
+        //         document.exitFullscreen();
+        //     } else if (document.webkitExitFullscreen) { /* Safari */
+        //         document.webkitExitFullscreen();
+        //     } else if (document.msExitFullscreen) { /* IE11 */
+        //         document.msExitFullscreen();
+        //     }
+        // }
+
+        const toUrl = (url) => {
+            window.location.href = url;
+        }
+        // function isChecked() {
+        //     var isFullScreen = document.getElementById("ceo")
+        //     if (isFullScreen.checked == true) {
+        //         openFullscreen();
+        //     }
+        //     else if (window.innerHeight == screen.height && isFullScreen.checked == false) {
+        //         closeFullscreen();
+        //     }
+        // }
+    </script>
+</head>
+
+<body onload="check()">
+    <div class="container" id="cont">
+        <!--O nama-->
+        <div class="onama">
+            <!--Logo-->
+            <img src="images/logo.svg" alt="EU i Srbija" id="logo">
+            <div id="onama_2">
+                <h1>O NAMA</h1>
+                <div class="slike">
+                    <div class="slika">
+                        <img src="images/Lazar_Mancic.jpg" alt="">
+                        <p>Lazar Mančić
+                            <br> Učenik 3. godine Tehničke škole Pirot
+                        </p>
+                    </div>
+
+                    <div class="slika">
+                        <img src="images/Jovan_Stanisic.jpg" alt="">
+                        <p>Jovan Stanišić
+                            <br> Učenik 3. godine Tehničke škole Pirot
+                        </p>
+                    </div>
+
+                    <div class="slika">
+                        <img src="images/Veljko_Djordjev.jpg" alt="">
+                        <p>Veljko Djordjev
+                            <br>Učenik 3. godine Tehničke škole Pirot
+                        </p>
+                    </div>
+                </div>
+                <div class="slike">
+                    <div class="slika">
+                        <img class="mentor" src="images/Bojan_Ciric.png" alt="">
+                        <p>Bojan Ćirić
+                            <br> Profesor Programiranja<br>Tehničke škole Pirot
+                        </p>
+                    </div>
+
+                    <div class="slika">
+                        <img class="mentor" src="images/Aleksandra_Manic.png" alt="">
+                        <p>Aleksandra Manić
+                            <br> Profesor Sociologije<br>Tehničke škole Pirot
+                        </p>
+                    </div>
+                    <!--img src="images/countryballs/srb_explain.png" alt="EU i Srbija" id="mech"-->
+                </div>
+            </div>
+        </div>
+        <img src="images/backbtn.svg" alt="EU i Srbija" id="back" onclick="toUrl('main.html')">
+        <!-- 
+    <script>
+        var checkbox = document.getElementById("ceo");
+        function stayChecked(){
+            localStorage.setItem(checkbox.value, checkbox.checked); 
+        }
+        function loadChecked(){
+            checkbox.checked = localStorage.getItem(checkbox.value) === 'true' ? true:false;
+        }
+    </script> -->
+        <div id="warning-message">
+            <div>
+                <img src="images/countryballs/srb_mech.png" alt="">
+                <div>Molim Vas okrenite telefon horizontalno za dalje korišćenje!</div>
+            </div>
+        </div>
+</body>
+
+</html>
+<!-- https://github.com/rafgraph/fscreen/blob/main/src/index.js -->

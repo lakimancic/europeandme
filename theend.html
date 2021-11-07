@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kraj igre</title>
+    <link rel="stylesheet" href="css/end.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(() => {
+            if (typeof(Storage) !== "undefined") {
+                if(!sessionStorage.getItem("usao")) {
+                    $(".content").css("display", "none");
+                    $(".greska").css("display", "flex");
+                }
+                else{
+                    let usao = JSON.parse(sessionStorage.getItem("usao"));
+                    $("#date").text(usao.datum);
+                    $("#pot").text(usao.potezi);
+                    sessionStorage.removeItem("usao");
+                    localStorage.removeItem("playerInfo");
+                }
+            }
+            else{
+                $(".content").css("display", "none");
+                $(".greska").css("display", "flex");
+                $(".greska .text").text("Vaš Pregledač ne podržava ovu stranicu!");
+            }
+        })
+        const toUrl = (url) => {
+            window.location.href = url;
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="content">
+            <img src="images/logo.svg" class="logo">
+            <img src="images/countryballs/srb_diplome.png" class="srb_logo">
+            <!-- <img src="images/countryballs/eur_happy.png" class="drz1"> -->
+            <img src="images/countryballs/fra_happy.png" class="drz3">
+            <img src="images/countryballs/nem_happy.png" class="drz2">
+            <img src="images/countryballs/eur_happy.png" class="drz1">
+            <div class="info_con">
+                <p class="congr">Čestitamo ušli ste u Evropsku Uniju !</p>
+                <p class="item_name">datum ulaska:</p>
+                <p class="item" id="date">23. januar 2021.</p>
+                <p class="item_name">broj poteza:</p>
+                <p class="item" id="pot">52</p>
+            </div>
+            <img src="images/fiework.gif" class="fw">
+            <button id="pocet" onclick="toUrl('main.html')">Vrati se na Početnu</button>
+        </div>
+        <div class="greska">
+            <img src="images/countryballs/srb_mech.png" alt="">
+            <div class="text">Greška, još uvek niste ušli u Evropsku uniju</div>
+        </div>
+    </div>
+    <div id="warning-message">
+        <div>
+            <img src="images/countryballs/srb_mech.png" alt="">
+            <div>Molim Vas okrenite telefon horizontalno za dalje korišćenje!</div>
+        </div>
+    </div>
+</body>
+</html>

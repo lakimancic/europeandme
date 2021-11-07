@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="sr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Postavke</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script defer>
+        /* Get the documentElement (<html>) to display the page in fullscreen */
+        // var elem = document.documentElement;
+        // /* View in fullscreen */
+        // function openFullscreen() {
+        //     if (elem.requestFullscreen) {
+        //         elem.requestFullscreen();
+        //     } else if (elem.webkitRequestFullscreen) { /* Safari */
+        //         elem.webkitRequestFullscreen();
+        //     } else if (elem.msRequestFullscreen) { /* IE11 */
+        //         elem.msRequestFullscreen();
+        //     }
+        // }
+
+        // /* Close fullscreen */
+        // function closeFullscreen() {
+        //     if (document.exitFullscreen) {
+        //         document.exitFullscreen();
+        //     } else if (document.webkitExitFullscreen) { /* Safari */
+        //         document.webkitExitFullscreen();
+        //     } else if (document.msExitFullscreen) { /* IE11 */
+        //         document.msExitFullscreen();
+        //     }
+        // }
+
+        const toUrl = (url) => {
+            window.location.href = url;
+        }
+        // function isChecked() {
+        //     var isFullScreen = document.getElementById("ceo")
+        //     if (isFullScreen.checked == true) {
+        //         openFullscreen();
+        //     }
+        //     else if (window.innerHeight == screen.height && isFullScreen.checked == false) {
+        //         closeFullscreen();
+        //     }
+        // }
+        function check() {
+            var checkbox = document.getElementById("ceo");
+            if (window.innerHeight == screen.height) {
+                checkbox.checked = true;
+                // console.log(checkbox.checked)
+            }
+            else {
+                checkbox.checked = false;
+                // console.log(checkbox.checked)
+            }
+        }
+
+        window.onresize = () => {
+            var checkbox = document.getElementById("ceo");
+            if (window.innerHeight != screen.height) {
+                if (checkbox.checked == true) {
+                    checkbox.checked = false;
+                }
+            }
+        }
+
+        let zvukSetts = JSON.parse(localStorage.zvukSetts);
+
+        function updateMusic() {
+
+            if (typeof (Storage) !== "undefined") {
+                localStorage.zvukSetts = JSON.stringify(zvukSetts);
+            }
+        }
+
+        function updateSound() {
+            zvukSetts.zvuk = document.getElementById("zvu").value / 100;
+            if (typeof (Storage) !== "undefined") {
+                localStorage.zvukSetts = JSON.stringify(zvukSetts);
+            }
+        }
+    </script>
+</head>
+
+<body onload="check()">
+    <div class="container" id="cont">
+        <!--Postavke-->
+        <div class="postavke">
+            <!--Logo-->
+            <img src="images/logo.svg" alt="EU i Srbija" id="logo">
+            <h1>POSTAVKE</h1>
+            <div class="muzika">
+                <h2>MUZIKA</h2>
+                <input type="range" class="slider" name="" id="muz" min="0" max="100" value="50">
+            </div>
+            <div class="zvuk">
+                <h2>ZVUK</h2>
+                <input type="range" class="slider" name="" id="zvu" min="0" max="100" value="50" onchange="updateSound()">
+            </div>
+            <label class="ceoekran ceoekran-checkbox">
+                <h2>REŽIM CELOG EKRANA</h2>
+                <input type="checkbox" name="" id="ceo">
+                <div class="control_indicator"></div>
+            </label>
+            <img src="images/countryballs/srb_mech.png" alt="EU i Srbija" id="mech">
+        </div>
+        <img src="images/backbtn.svg" alt="EU i Srbija" id="back" onclick="toUrl('main.html')">
+    </div>
+    <!-- 
+    <script>
+        var checkbox = document.getElementById("ceo");
+        function stayChecked(){
+            localStorage.setItem(checkbox.value, checkbox.checked); 
+        }
+        function loadChecked(){
+            checkbox.checked = localStorage.getItem(checkbox.value) === 'true' ? true:false;
+        }
+    </script> -->
+    <div id="warning-message">
+        <div>
+            <img src="images/countryballs/srb_mech.png" alt="">
+            <div>Molim Vas okrenite telefon horizontalno za dalje korišćenje!</div>
+        </div>
+    </div>
+</body>
+
+</html>
+<!-- https://github.com/rafgraph/fscreen/blob/main/src/index.js -->
